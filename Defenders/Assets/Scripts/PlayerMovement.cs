@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         position = transform.position;
         //Forward the distance amount (go backwards if it is negative) this will take an axis value
         force.Set(Mathf.Sin(-rotation)* -distance * Time.deltaTime * speed, Mathf.Cos(-rotation) * -distance * Time.deltaTime * speed);
-        position += force;
+        position -= force;
         transform.position = position;
     }
 
