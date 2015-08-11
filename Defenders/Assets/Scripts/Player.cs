@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     PlayerMovement movement;
     ShipLoader shipLoader;
 
+    PlayerWeapon weapon;
+
     Animator anim;
     SpriteRenderer srenderer;
 
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour
     Vector3 spawnLocation = new Vector3(6f, 0f, 0f);
     void Awake()
     {
+        weapon = GetComponent<PlayerWeapon>();
         mainCamera = Camera.main;
         srenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -30,17 +33,46 @@ public class Player : MonoBehaviour
 
     public bool explode;
 
+    float move, rotate;
+
+    public Vector2 bulletDirection;
+
+    public float tan, sin, cos;
+
     void Start()
     {
     }
 
     void Update()
     {
+        move = Input.GetAxisRaw("Vertical");
+        rotate = Input.GetAxisRaw("Horizontal");
+        tan = Mathf.Tan(transform.localEulerAngles.z * 180 / Mathf.PI);
+        sin = Mathf.Sin(transform.localEulerAngles.z * 180 / Mathf.PI);
+        cos = Mathf.Cos(transform.localEulerAngles.z * 180 / Mathf.PI);
+
+        bulletDirection.Set(sin, cos);
+    }
+
+    public bool spinAttack;
+
+    void FixedUpdate()
+    {
+        if (spinAttack)
+        {
+            spinAttack = false;
+            weapon.SpinAttack(transform.eulerAngles.z);
+        }
         if (!dying)
         {
-   
-            if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0) movement.Move(Input.GetAxisRaw("Vertical"));
-            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) movement.Rotate(Input.GetAxisRaw("Horizontal"));
+            if (Input.GetButtonDown("SpinAttack"))
+            {
+                Debug.Log("Spin Attack");
+                weapon.SpinAttack(transform.eulerAngles.z);
+            }
+            if (Input.GetButtonDown("Shoot")) weapon.Shoot(transform.eulerAngles.z);
+            if (Input.GetAxisRaw("Vertical") != 0) movement.Move(move);
+            if (Input.GetAxisRaw("Horizontal") != 0) movement.Rotate(rotate);
         
             if ((Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) || (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0))
                 anim.SetBool("PlayerFlying", true);
