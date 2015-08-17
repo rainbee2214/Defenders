@@ -37,7 +37,10 @@ public class Player : MonoBehaviour
 
     public Vector2 bulletDirection;
 
-    public float tan, sin, cos;
+    public float sin, cos;
+
+    float shootDelay = .1f;
+    float nextShootTime;
 
     void Start()
     {
@@ -47,7 +50,6 @@ public class Player : MonoBehaviour
     {
         move = Input.GetAxisRaw("Vertical");
         rotate = Input.GetAxisRaw("Horizontal");
-        tan = Mathf.Tan(transform.localEulerAngles.z * 180 / Mathf.PI);
         sin = Mathf.Sin(transform.localEulerAngles.z * 180 / Mathf.PI);
         cos = Mathf.Cos(transform.localEulerAngles.z * 180 / Mathf.PI);
 
@@ -70,10 +72,15 @@ public class Player : MonoBehaviour
                 Debug.Log("Spin Attack");
                 weapon.SpinAttack(transform.eulerAngles.z);
             }
-            if (Input.GetButtonDown("Shoot")) weapon.Shoot(transform.eulerAngles.z);
+            if (Input.GetButtonDown("Shoot") && Time.time > nextShootTime)
+            {
+                Debug.Log("Shooting");
+                weapon.Shoot(transform.eulerAngles.z);
+                nextShootTime = Time.time + shootDelay;
+            }
             if (Input.GetAxisRaw("Vertical") != 0) movement.Move(move);
             if (Input.GetAxisRaw("Horizontal") != 0) movement.Rotate(rotate);
-        
+
             if ((Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) || (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0))
                 anim.SetBool("PlayerFlying", true);
             else anim.SetBool("PlayerFlying", false);

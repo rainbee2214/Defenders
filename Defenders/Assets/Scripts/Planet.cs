@@ -27,6 +27,7 @@ public class Planet : MonoBehaviour
         {
             if (!other.gameObject.GetComponent<Player>().dying) other.gameObject.GetComponent<Player>().Die();
         }
+
     }
 
     public void OnTriggerExit2D(Collider2D other)
