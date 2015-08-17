@@ -27,6 +27,10 @@ public class Planet : MonoBehaviour
         {
             if (!other.gameObject.GetComponent<Player>().dying) other.gameObject.GetComponent<Player>().Die();
         }
+        else if (other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<Enemy>().Explode();
+        }
 
     }
 
