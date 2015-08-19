@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     Vector2 startPosition;
 
+    public int damageAmount = 5;
+
     void Awake()
     {
         startPosition = transform.position;
@@ -31,8 +33,6 @@ public class Enemy : MonoBehaviour
         if (dead) return;
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         Vector3 v = player.transform.position - transform.position;
-        Debug.Log(v);
-        Debug.Log("Angle to player: " + Mathf.Atan(v.x / v.y) * 180 / Mathf.PI);
 
         if (player.transform.position.y - transform.position.y < 0)
         {
