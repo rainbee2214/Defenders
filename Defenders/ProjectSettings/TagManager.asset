@@ -47,6 +47,9 @@ TagManager:
   - name: Above
     uniqueID: 552894047
     locked: 0
+  - name: Enemy
+    uniqueID: 4121850553
+    locked: 0
   - name: WorldUI
     uniqueID: 497469371
     locked: 0

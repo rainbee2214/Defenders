@@ -32,7 +32,18 @@ public class Planet : MonoBehaviour
             explode = false;
             GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(0).gameObject.SetActive(true);
+            StartCoroutine(GameOver());
         }
+    }
+
+    IEnumerator GameOver()
+    {
+
+        transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        //TODO: add message controller
+        Application.LoadLevel("Level");
+        yield return null;
     }
 
     public void OnCollisionEnter2D(Collision2D other)

@@ -45,7 +45,6 @@ public class Enemy : MonoBehaviour
 
         }
     }
-    //Move(new Vector3(Mathf.Sin((-rb.rotation)* Mathf.PI / 180), Mathf.Cos((-rb.rotation) * Mathf.PI / 180),0f)*speed*Time.deltaTime);
 
     public void Rotate(float angle)
     {
