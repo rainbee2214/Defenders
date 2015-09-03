@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Planet : MonoBehaviour
+public class Planet : MonoBehaviour, UIHealth
 {
     float radius;
 
@@ -55,25 +55,27 @@ public class Planet : MonoBehaviour
         }
         else if (other.gameObject.tag == "Enemy")
         {
-            health -= other.gameObject.GetComponent<Enemy>().damageAmount;
             other.gameObject.GetComponent<Enemy>().Explode();
-            healthBar.value = health;
-            if (health <= 0)
-            {
-                health = 0;
-                Debug.Log("Explode!");
-                //explode 
-                explode = true;
-            }
+            health -= other.gameObject.GetComponent<Enemy>().damageAmount;
+            TakeDamage();
         }
 
     }
-
-    public void OnTriggerExit2D(Collider2D other)
+    public void TakeDamage(float damage = -1)
     {
-
+        healthBar.value = health;
+        if (health <= 0)
+        {
+            health = 0;
+            Debug.Log("Explode!");
+            //explode 
+            explode = true;
+        }
     }
 
-
+    public void ResetHealth()
+    {
+        health = 100;
+    }
 
 }

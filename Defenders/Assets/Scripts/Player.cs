@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(ShipLoader))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PlayerMovement))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, UIHealth
 {
+    int health;
+    int maxHealth = 100;
+
+    public Slider healthBar;
     PlayerMovement movement;
     ShipLoader shipLoader;
 
@@ -23,6 +28,7 @@ public class Player : MonoBehaviour
     Vector3 spawnLocation = new Vector3(6f, 0f, 0f);
     void Awake()
     {
+        health = maxHealth;
         weapon = GetComponent<PlayerWeapon>();
         mainCamera = Camera.main;
         srenderer = GetComponent<SpriteRenderer>();
@@ -118,5 +124,35 @@ public class Player : MonoBehaviour
         Debug.Log("Respawning");
         anim.SetTrigger("Respawned");
         dying = false;
+        ResetHealth();
+        healthBar.enabled = true;
+    }
+
+    public void TakeDamage(float damage = -1)
+    {
+        healthBar.value = health;
+        if (health <= 0)
+        {
+            health = 0;
+            healthBar.enabled = false;
+            Die();
+        }
+    }
+
+    public void ResetHealth()
+    {
+        health = maxHealth;
+        healthBar.value = health;
+    }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<Enemy>().Explode();
+            health -= other.gameObject.GetComponent<Enemy>().damageAmount;
+            TakeDamage();
+        }
+
     }
 }
