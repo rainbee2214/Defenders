@@ -56,6 +56,7 @@ public class Player : MonoBehaviour, UIHealth
     {
         move = Input.GetAxisRaw("Vertical");
         rotate = Input.GetAxisRaw("Horizontal");
+
         sin = Mathf.Sin(transform.localEulerAngles.z * 180 / Mathf.PI);
         cos = Mathf.Cos(transform.localEulerAngles.z * 180 / Mathf.PI);
 
