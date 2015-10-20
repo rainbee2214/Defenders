@@ -13,7 +13,6 @@ public interface ISpawnable
     /// Get a list (one or more) of possible spawn locations. Can be random or predetermined, or only a single location.
     /// Used for the paramter of Spawn(Vector3);
     /// </summary>
-    /// <returns></returns>
     Vector3[] GetSpawnPoints();
 
     /// <summary>

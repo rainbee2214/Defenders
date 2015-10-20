@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    public GameObject bullet;
+    GameObject bullet;
 
     GameObject b;
 
@@ -18,6 +18,7 @@ public class PlayerWeapon : MonoBehaviour
 
     void Awake()
     {
+        bullet = Resources.Load<GameObject>("Prefabs/Bullet");
         GameObject weapon1 = new GameObject("PlayerWeapon1");
         weapon1.transform.position = transform.position;
         weapon1.transform.eulerAngles = Vector3.zero;
